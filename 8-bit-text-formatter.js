@@ -16,13 +16,32 @@ for (x in encodedMap.charOne) {
 }
 
 //this will create an empty array that will make 32 slots to map our Raw --> Encoded values over to. We will join this array to make the full encoded array of all characters
-encodedDecimal = Array.apply(null, Array(32)).fill(0);
+let encodedDecimal = Array.apply(null, Array(32)).fill(0);
 
-console.log(encodedDecimal.length);
 //first we will grab the Hex Value of the character
-hexCharValue = "A".charCodeAt(0).toString(16);
+let hexCharValue = "A".charCodeAt(0).toString(16);
 //then we will transform the Hex into the Decimal Value
-binaryChar = parseInt("41", 16).toString(2);
+let binaryChar = parseInt("41", 16).toString(2);
 //We will use this to transform the decimal value into binary
-decToBinary = Number(65).toString(2);
-console.log(binaryChar);
+let decToBinary = Number(65).toString(2);
+//pad binary number so we can loop over it properly
+let paddedDecToBinary = "00000000".substr(decToBinary.length) + decToBinary;
+console.log(paddedDecToBinary);
+//loop over binary number and use the encoding map to change value of encodedDecimal to 1 for any spot that matches
+let index = 0;
+for (x of paddedDecToBinary) {
+  //comparing string to string
+  if (x == "1") {
+    // console.log(index);
+    console.log(encodedMap.charOne[index]);
+    //use the index value to find where the encoded value is located
+    let mapIndex = encodedMap.charOne[index];
+    //assign the
+    encodedDecimal[mapIndex] = 1;
+  }
+  // console.log(x);
+  index++;
+}
+
+console.log(encodedDecimal);
+console.log(encodedDecimal.join(""));
