@@ -14,3 +14,15 @@ let encodedMap = {
 for (x in encodedMap.charOne) {
   console.log(encodedMap.charOne[x]);
 }
+
+//this will create an empty array that will make 32 slots to map our Raw --> Encoded values over to. We will join this array to make the full encoded array of all characters
+encodedDecimal = Array.apply(null, Array(32)).fill(0);
+
+console.log(encodedDecimal.length);
+//first we will grab the Hex Value of the character
+hexCharValue = "A".charCodeAt(0).toString(16);
+//then we will transform the Hex into the Decimal Value
+binaryChar = parseInt("41", 16).toString(2);
+//We will use this to transform the decimal value into binary
+decToBinary = Number(65).toString(2);
+console.log(binaryChar);
