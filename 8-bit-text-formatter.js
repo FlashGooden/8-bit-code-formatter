@@ -89,10 +89,10 @@ class ADecoder {
     this.string = string;
     //this will create an empty array that will make 32 slots to map our Encoded--> Raw values over to. We will seperate this array to represent each character
     this.encodeArray = Array.apply(null, Array(32)).fill(0);
-    this.charOne = "";
-    this.charTwo = "";
-    this.charThree = "";
-    this.charFour = "";
+    this.charOne = [...this.encodeArray.slice(0, 7)];
+    this.charTwo = [...this.encodeArray.slice(8, 15)];
+    this.charThree = [...this.encodeArray.slice(16, 23)];
+    this.charFour = [...this.encodeArray.slice(24, 31)];
   }
 
   DecodeMap() {
@@ -154,6 +154,27 @@ class ADecoder {
       }
     });
     console.log(this.encodeArray);
+    this.charOne = parseInt(
+      [...this.encodeArray.slice(-8)].join(""),
+      2
+    ).toString(16);
+    this.charTwo = parseInt(
+      [...this.encodeArray.slice(-16, -8)].join(""),
+      2
+    ).toString(16);
+    this.charThree = parseInt(
+      [...this.encodeArray.slice(-24, -16)].join(""),
+      2
+    ).toString(16);
+    this.charFour = parseInt(
+      [...this.encodeArray.slice(-32, -24)].join(""),
+      2
+    ).toString(16);
+
+    console.log(this.charFour, this.charThree, this.charTwo, this.charOne);
+    console.log(
+      String.fromCharCode("0x" + this.charOne, "0x" + this.charFour, "0x130")
+    );
   }
 }
 
