@@ -80,12 +80,10 @@ class AEncoder {
    }
 }
 //use these to check class function
-checker = new AEncoder("hi").encodeString();
-console.log(checker); //131107009
+// checker = new AEncoder("hi").encodeString();
+// console.log(checker); //131107009
 
-
-
-//this class will Encode a whole sentence 
+//this class will Encode a whole sentence
 class ASentenceEncoder {
    constructor(string) {
       this.string = string;
@@ -98,23 +96,21 @@ class ASentenceEncoder {
          myArray.push(wordArray.slice(i, i + 4));
       }
       // console.log(myArray)
-      return this.eachWordDecimal(myArray)
+      return this.eachWordDecimal(myArray);
       // return myArray;
    }
    //this will take in an array of words to be encoded into Decimal format
-   eachWordDecimal (wordArray) {
-      let decodeArray = []
-      wordArray.map((wordBit)=> {
-         decodeArray.push(new AEncoder(wordBit.join('')).encodeString())
-      })
-      return decodeArray
+   eachWordDecimal(wordArray) {
+      let decodeArray = [];
+      wordArray.map((wordBit) => {
+         decodeArray.push(new AEncoder(wordBit.join("")).encodeString());
+      });
+      return decodeArray;
    }
 }
 //test cases
-wordUp = new ASentenceEncoder("egad, a base tone denotes a bad age");
-console.log(wordUp.splitWord()) 
-
-
+// wordUp = new ASentenceEncoder("egad, a base tone denotes a bad age");
+// console.log(wordUp.splitWord())
 
 //for the Decoder we will create a class that will take in a string in decimal format and decode it into encoded letters
 
@@ -150,7 +146,7 @@ class ADecoder {
             // console.log(this.DecodeMap()[index]);
          }
       });
-      console.log(this.encodeArray);
+      // console.log(this.encodeArray);
       let prefix = "0x";
       this.charOne = parseInt(
          [...this.encodeArray.slice(-8)].join(""),
@@ -179,43 +175,32 @@ class ADecoder {
       );
    }
 }
-// test cases 
-decoding = new ADecoder("82841860").decodeDecimal();
-console.log(decoding);
+// test cases
+// decoding = new ADecoder("82841860").decodeDecimal();
+// console.log(decoding);
 
 //this will take in an array of decimals and turn them into a sentence
 class ASentenceDecoder {
-   constructor (array) {
-      this.array = [...array]
+   constructor(array) {
+      this.array = [...array];
    }
 
    //decode each decimal in the array
-   decodeEachDecimal () {
-      let decimalArray = []
-      this.array.map((decimal)=> {
-         decimalArray.push(new ADecoder(decimal).decodeDecimal())
+   decodeEachDecimal() {
+      let decimalArray = [];
+      this.array.map((decimal) => {
+         decimalArray.push(new ADecoder(decimal).decodeDecimal());
          // console.log(typeof decimal)
-      })
-      return this.arrayToSentence(decimalArray)
+      });
+      return this.arrayToSentence(decimalArray);
    }
    //join the array into one string for return
-   arrayToSentence (decimalArray) {
-      return decimalArray.join('')
+   arrayToSentence(decimalArray) {
+      return decimalArray.join("");
    }
-
 }
 //test Cases for ASentenceDecoder
-sentenceDecode = new ASentenceDecoder([267389735, 82841860, 267651166, 250793668, 233835785, 267665210, 99680277, 133170194, 124782119]).decodeEachDecimal()
-console.log(sentenceDecode)
+// sentenceDecode = new ASentenceDecoder([267389735, 82841860, 267651166, 250793668, 233835785, 267665210, 99680277, 133170194, 124782119]).decodeEachDecimal()
+// console.log(sentenceDecode)
 
-module.exports = { ASentenceDecoder, ASentenceEncoder}
-
-
-
-
-
-
-
-
-
-
+module.exports = { ASentenceDecoder, ASentenceEncoder };
