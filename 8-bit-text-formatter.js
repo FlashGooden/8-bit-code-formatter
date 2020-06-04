@@ -1,5 +1,6 @@
 //importing our Decode --> RAW mapper
 const mapper = require("./mapper.js");
+
 //for the Encoder we will create a text formatter file that will take in a string with a length no longer than 4  and output an encoded value representing that string
 
 //our encoder has 32 slots in which we will map over a value to which position it will be encoded to
@@ -55,6 +56,7 @@ class AEncoder {
       });
       return parseInt(this.putBack().join(""), 2);
    }
+
    mapCharacterToBinary(paddedDec, charIndex) {
       //loop over binary number and use the encoding map to change value of encodedDecimal to 1 for any spot that matches
       // debugger;
@@ -81,6 +83,39 @@ class AEncoder {
 checker = new AEncoder("hi").encodeString();
 console.log(checker); //131107009
 
+
+
+//this class will Encode a whole sentence 
+class ASentenceEncoder {
+   constructor(string) {
+      this.string = string;
+   }
+   //this splits the word into arrays with 4 letters / Characters in each slot
+   splitWord() {
+      let wordArray = this.string.split("");
+      var myArray = [];
+      for (var i = 0; i < wordArray.length; i += 4) {
+         myArray.push(wordArray.slice(i, i + 4));
+      }
+      // console.log(myArray)
+      return this.eachWordDecimal(myArray)
+      // return myArray;
+   }
+   //this will take in an array of words to be encoded into Decimal format
+   eachWordDecimal (wordArray) {
+      let decodeArray = []
+      wordArray.map((wordBit)=> {
+         decodeArray.push(new AEncoder(wordBit.join('')).encodeString())
+      })
+      return decodeArray
+   }
+}
+//test cases
+wordUp = new ASentenceEncoder("egad, a base tone denotes a bad age");
+console.log(wordUp.splitWord()) 
+
+
+
 //for the Decoder we will create a class that will take in a string in decimal format and decode it into encoded letters
 
 //our decoder has 32 slots in which we will map over a value to which character it will be decoded to ---- each character will have a binary value that we will transform into Hex
@@ -106,8 +141,8 @@ class ADecoder {
    decodeDecimal() {
       let decToBinaryPadded =
          "00000000000000000000000000000000".substr(
-            Number(217104392).toString(2).length
-         ) + Number(217104392).toString(2);
+            Number(this.string).toString(2).length
+         ) + Number(this.string).toString(2);
 
       decToBinaryPadded.split("").map((num, index) => {
          if (num === "1") {
@@ -134,7 +169,7 @@ class ADecoder {
          2
       ).toString(16);
 
-      console.log(this.charFour, this.charThree, this.charTwo, this.charOne);
+      // console.log(this.charFour, this.charThree, this.charTwo, this.charOne);
 
       return String.fromCharCode(
          `${prefix + this.charOne}`,
@@ -144,34 +179,43 @@ class ADecoder {
       );
    }
 }
-
-decoding = new ADecoder("266522386").decodeDecimal();
+// test cases 
+decoding = new ADecoder("82841860").decodeDecimal();
 console.log(decoding);
-// console.log(mapper.decodeMapper);
-class AWordEncoder {
-   constructor(string) {
-      this.string = string;
-      this.decodeArray = []
+
+//this will take in an array of decimals and turn them into a sentence
+class ASentenceDecoder {
+   constructor (array) {
+      this.array = [...array]
    }
 
-   splitWord() {
-      let wordArray = this.string.split("");
-      var myArray = [];
-      for (var i = 0; i < wordArray.length; i += 4) {
-         myArray.push(wordArray.slice(i, i + 4));
-      }
-      console.log(myArray)
-      return this.eachWordDecimal(myArray)
-      // return myArray;
-   }
-
-   eachWordDecimal (wordArray) {
-      let decodeArray = []
-      wordArray.map((wordBit)=> {
-         decodeArray.push(new AEncoder(wordBit.join('')).encodeString())
+   //decode each decimal in the array
+   decodeEachDecimal () {
+      let decimalArray = []
+      this.array.map((decimal)=> {
+         decimalArray.push(new ADecoder(decimal).decodeDecimal())
+         // console.log(typeof decimal)
       })
-      console.log(decodeArray)
+      return this.arrayToSentence(decimalArray)
    }
+   //join the array into one string for return
+   arrayToSentence (decimalArray) {
+      return decimalArray.join('')
+   }
+
 }
-wordUp = new AWordEncoder("testing out this sentence");
-wordUp.splitWord();
+//test Cases for ASentenceDecoder
+sentenceDecode = new ASentenceDecoder([267389735, 82841860, 267651166, 250793668, 233835785, 267665210, 99680277, 133170194, 124782119]).decodeEachDecimal()
+console.log(sentenceDecode)
+
+module.exports = { ASentenceDecoder, ASentenceEncoder}
+
+
+
+
+
+
+
+
+
+
