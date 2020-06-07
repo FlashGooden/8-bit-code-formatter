@@ -6,7 +6,7 @@ const rl = readline.createInterface({
    prompt: "Formatter> ",
 });
 rl.prompt();
-function askQuestion() {
+function AaskQuestion() {
    rl.question(
       "What would you like to do?\n\n 1. Encode a string \n 2. Decode a set of strings \n 3. Exit \n\n",
       (answer) => {
@@ -14,8 +14,8 @@ function askQuestion() {
             rl.question(
                "Please enter the string you want to encode \n",
                (answer) => {
-                  encodeAnswer(answer);
-                  askQuestion();
+                  AencodeAnswer(answer);
+                  AaskQuestion();
                }
             );
          }
@@ -24,22 +24,26 @@ function askQuestion() {
             rl.question(
                "Please enter the string of numbers seperated by spaces that you want to decode \n",
                (answer) => {
-                  decodeAnswer(answer);
-                  askQuestion();
+                  AdecodeAnswer(answer);
+                  AaskQuestion();
                }
             );
+         }
+         if (answer === "3") {
+            console.log("thank you for using the text formatter");
+            process.exit(0);
          }
       }
    );
 }
 //The function used to encode the answer on the command line
-function encodeAnswer(answer) {
+function AencodeAnswer(answer) {
    console.log("Thank you for using the text formatter \n");
    console.log("Your encoded return is \n");
    console.log(new formatter.ASentenceEncoder(answer).splitWord());
 }
 //the function used to decode a set of numbers on the command line
-function decodeAnswer(answer) {
+function AdecodeAnswer(answer) {
    console.log("Thank you for using the text formatter \n");
    console.log("Your decoded return is \n");
    console.log(
@@ -49,5 +53,5 @@ function decodeAnswer(answer) {
    );
 }
 
-askQuestion();
+AaskQuestion();
 // rl.prompt();

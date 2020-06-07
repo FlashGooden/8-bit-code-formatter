@@ -22,7 +22,7 @@ class AEncoder {
    //our encoder has 32 slots in which we will map over a value to which position it will be encoded to
 
    //create an object that takes each character then has a key for the original slot, then places the value in the encoding slot
-
+   //TODO: mimic Decode object and Replace this object with a mapper using just one object instead of 4
    EncodedMap() {
       return {
          charOne: { 0: 3, 1: 7, 2: 11, 3: 15, 4: 19, 5: 23, 6: 27, 7: 31 },
